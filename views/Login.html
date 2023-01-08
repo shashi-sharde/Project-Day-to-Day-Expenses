@@ -31,20 +31,25 @@
             }
             axios.post('http://localhost:3000/users/login',obj)
             .then((response)=>{
-                console.log(response)
+                
                 if(response.status === 201){
-                    document.body.innerHTML +=`<div style='color:green'>User Login Succesfull! </div>`
+                    document.body.innerHTML +=`<div style='color:green'>User Login Succesfull! </div>`;
                 }
-                if (response.status === 207){
-                    document.body.innerHTML += `<div style='color:red'>User Not Authorised! </div>`
+                
+                else if(response.status === 207){
+                    document.body.innerHTML += `<div style='color:red'>User Not Found! </div>`;
+                    alert('user not found')
                 }
-                if(response.status === 401){
-                    document.body.innerHTML +=`<div style='color:red'>Wrong Password! </div>`
+                else{
+                    throw new Error("Something went Wrong")
                 }
                 
             
 
-            })
+            }).catch(err => {
+        console.log(JSON.stringify(err))
+        document.body.innerHTML += `<div style="color:red;">Incorrect Password! <div>`;
+    })
             
             
 

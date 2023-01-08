@@ -34,7 +34,8 @@
 
             axios.post('http://localhost:3000/users/signup' , obj)
             .then((response)=>{
-                console.log(response)
+                document.body.innerHTML += `<div style ='color:green;'>${alert('Successfully created new user!')} </div>`;
+                window.location.href='http://localhost:3000/users/login';
             })
             .catch((err)=>{
                 document.body.innerHTML += `<div style ='color:red;'>${'Email Id already registerd- please try to Login'} </div>`;

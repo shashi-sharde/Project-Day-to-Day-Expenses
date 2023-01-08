@@ -1,5 +1,6 @@
 const path = require('path')
 const User = require('../Models/Userdetails')
+const bcrypt = require('bcrypt')
 
 exports.signUpData =  (req, res, next) => {
     res.sendFile(path.join(__dirname, '../', 'views' , 'SignUp.html'));
@@ -13,23 +14,20 @@ exports.loginData= (req,res,next) =>{
 exports.signUp = async(req, res, next)=>{
     console.log('Ready To Signup')
         try{
-        const username = req.body.username;
-        const email = req.body.email;
-        const password = req.body.password
+        const {username, email, password} =req.body
 
         if (username == undefined || username.length === 0 || email.length === 0 || email == null || password.length === 0 || password ==null){
             return res.status(400).json({err: 'Bad Parameters . Something is missing.'})
         }
-
-        await User.create({
-            username: username,
-            email: email,
-            password: password
-        })
-            
+        const saltround = 10
+        bcrypt.hash(password, saltround, async(err, hash)=>{
+            await User.create({username,email, password:hash})
+                
             res.status(201).json({message: "User Created Successfully!"})
             
-        }catch(error){
+        })
+
+         }catch(error){
             console.log(error)
             res.status(500).json({error: error})
         }   
@@ -43,17 +41,23 @@ exports.login =async(req,res,next)=>{
         
 
         if(user.length > 0){
-            if(user[0].password === password){
-                res.status(201).json({message: 'Login Successful!'})
-            }else{
-                res.status(401).json({message :'Wrong Password'})
-            }
-            
+
+            bcrypt.compare(password, user[0].password, (err, result) =>{
+                if(err){
+                    throw new error("Something went wrong!")
+                }
+                if(result === true){
+                    res.status(201).json({message: 'Login Successful!' })
+                }else{
+                    return res.status(401).json({message :'Wrong Password' })
+                }
+
+            })      
         }
         else{
-            res.status(207).json({message: 'User not found'})
+              return res.status(207).json({message: 'User not found!'})
         }
     }catch(err){
-        res.status(450).json({err:err})
+        res.status(500).json({err:err})
     }
 }
