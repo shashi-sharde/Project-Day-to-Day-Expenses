@@ -1,8 +1,28 @@
 const path = require('path')
-const User = require('../Models/ExpenseDetails')
+const Expense = require('../Models/ExpenseDetails')
 
 exports.getExpense =  (req, res, next) => {
     res.sendFile(path.join(__dirname, '../','views', 'Expense.html'));
+  }
+
+
+  exports.postAddExpenses = async(req, res, next) => {
+    console.log('Adding an Expense');
+    try{
+      
+      const { MoneySpent, Description, Categories } = req.body;
+  
+      if(!Categories){
+        throw new Error('please select categories!');
+      }
+  
+      const data = await Expense.create({ MoneySpent, Description, Categories, userId: req.user.id})
+      res.status(201).json({newExpenseDetails: data});
+    }
+    catch(error){
+      console.log(error);
+      res.status(500).json({error:error});
+    }
   }
    
   exports.getExpenses = async (req,res,next)=>{
@@ -10,7 +30,7 @@ exports.getExpense =  (req, res, next) => {
   
       try{
         
-       const data =  await User.findAll()
+       const data =  await Expense.findAll({where: {userId: req.user.id}})
        res.status(201).json(data);
       }
       catch(error) {
@@ -21,39 +41,17 @@ exports.getExpense =  (req, res, next) => {
      
   }
   
-  exports.postAddExpenses = async(req, res, next) => {
-    console.log('adding a user');
-    try{
-      const Number = req.body.Number;
-      const Description = req.body.Description;
-      const Categories = req.body.Categories;
-  
-      if(!Categories){
-        throw new Error('please enter valid number');
-      }
-  
-      const data = await User.create({
-        Number: Number,
-        Description: Description,
-        Categories: Categories,
-      })
-      res.status(201).json({newExpenseDetails: data});
-    }
-    catch(error){
-      console.log(error);
-      res.status(500).json({error:error});
-    }
-  }
+ 
   
   
   exports.deleteExpense = async (req,res,next)=>{
     
     try{
-      let userId = req.params.userId;
-      if(!userId){
+      let expenseId = req.params.expenseId;
+      if(!expenseId){
         res.status(400).json({error:'id missing'});
       }
-      await User.destroy({where:{id:userId}});
+      await Expense.destroy({where:{id:expenseId}});
       res.sendStatus(200);
       
     }

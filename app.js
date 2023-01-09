@@ -9,6 +9,8 @@ const expenseRoute = require('./Routes/ExpenseRoute');
 
 
 const cors = require('cors')
+const Expense = require('./Models/ExpenseDetails')
+const User = require('./Models/Userdetails')
 
 const app = express()
 
@@ -20,7 +22,10 @@ app.use(signupRoute);
 app.use(loginRoute);
 app.use(expenseRoute)
 
-sequelize.sync().then(result =>{
+User.hasMany(Expense);
+Expense.belongsTo(User)
+
+sequelize.sync({force:false}).then(result =>{
     console.log('Server started at 3000');
     app.listen(3000); 
 }).catch(err=>{

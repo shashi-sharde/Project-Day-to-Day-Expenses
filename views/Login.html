@@ -94,7 +94,10 @@ button{
                 
                 if(response.status === 201){
                     alert('Login Successfull!')
-                    window.location.href ='http://localhost:3000/users/login/add-user';
+                    localStorage.setItem('token', response.data.token) 
+                    //const token = localStorage.getItem('token')
+                    window.location.href = 'http://localhost:3000/users/login/expense';
+                    //window.location.assign('http://127.0.0.1:5500/views/Expense.html');
                     
                 }
                 
