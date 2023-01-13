@@ -3,7 +3,7 @@ const User = require('../Models/Userdetails')
 
 
 
-const userController = require('../Controllers/SignupControll')
+const userController = require('../Controllers/Usercontrol')
 
 const express = require('express')
 const router = express.Router();

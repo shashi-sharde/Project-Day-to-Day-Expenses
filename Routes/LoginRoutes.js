@@ -1,6 +1,6 @@
 const path = require('path');
 
-const userController = require('../Controllers/LoginControll');
+const userController = require('../Controllers/Usercontrol');
 
 
 const express = require('express')

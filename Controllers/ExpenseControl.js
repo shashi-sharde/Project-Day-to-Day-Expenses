@@ -29,9 +29,28 @@ exports.getExpense =  (req, res, next) => {
       console.log("Getting Expenses");
   
       try{
+        const isPremiumUser = req.user.isPremiumUser;
+
+        // const data =  await Expense.findAll({where: {userId: req.user.id}})
+        //     res.status(201).json(data);
+      
+        if(isPremiumUser === true){
+          const data =  await Expense.findAll({where: {userId: req.user.id}})
+            res.status(201).json({isPremiumUser:true, data:data});
+
+        }
+      
+        else{
+          
+          const data =  await Expense.findAll({where: {userId: req.user.id}})
+          
+            res.status(201).json({isPremiumUser:false, data:data});
         
-       const data =  await Expense.findAll({where: {userId: req.user.id}})
-       res.status(201).json(data);
+
+        }
+          
+        
+       
       }
       catch(error) {
         console.log(error);
