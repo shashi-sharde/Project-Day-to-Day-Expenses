@@ -41,8 +41,8 @@ exports.loginData= (req,res,next) =>{
     res.sendFile(path.join(__dirname,'../', 'views', 'Login.html' ))
 }
 
-function generateAccessToken(id, username){
-    return jwt.sign({ userId : id , username : username}, 'secret')
+function generateAccessToken(id, username,isPremiumUser){
+    return jwt.sign({ userId : id , username : username, isPremiumUser}, 'secret')
 }
 
 exports.login =async(req,res,next)=>{
@@ -59,7 +59,7 @@ exports.login =async(req,res,next)=>{
                     throw new error("Something went wrong!")
                 }
                 if(result === true){
-                    res.status(201).json({message: 'Login Successful!', token : generateAccessToken(user[0].id ,  user[0].username) })
+                    res.status(201).json({message: 'Login Successful!', token : generateAccessToken(user[0].id ,  user[0].username, user[0].isPremiumUser) })
                     
                 }else{
                     return res.status(401).json({message :'Wrong Password' })

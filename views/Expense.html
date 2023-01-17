@@ -205,7 +205,7 @@ document.getElementById('rzp-button1').onclick =async function(e){ //creating on
             document.getElementById('rzp-button1').style.visibility='hidden'
 
             //Showing user that he/she is a premium USer
-            document.getElementById('message').innerHTML = `<strong style="border:orange;  border-style:solid;">PREMIUM USER </strong>`;
+            document.getElementById('message').innerHTML = `<strong>PREMIUM USER </strong>`;
             //Also setting the token after that 
             localStorage.setItem('token', res.data.token)
 
@@ -228,6 +228,8 @@ rzp1.on('payment.failed', function(response){
     
 });
 }
+
+
 function showLeaderboard(){
     document.getElementById('exp-leaderboard').onclick= async () => {
     const token =localStorage.getItem('token')

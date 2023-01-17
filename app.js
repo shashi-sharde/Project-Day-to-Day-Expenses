@@ -10,6 +10,7 @@ const loginRoute = require('./Routes/LoginRoutes');
 const expenseRoute = require('./Routes/ExpenseRoute');
 const purchaseRoute = require('./Routes/Purchase');
 const premiumfeatureRoute = require('./Routes/leaderboardRoute')
+const forgotpasswordRoute = require('./Routes/ResetPassRoute')
 
 
 const cors = require('cors') // Used for the cross origin platform 
@@ -32,6 +33,7 @@ app.use(loginRoute);
 app.use(expenseRoute)
 app.use('/purchase',purchaseRoute);
 app.use('/premium',premiumfeatureRoute)
+app.use(forgotpasswordRoute)
 
 //Defining Relationship Between the User and Expense Table
 User.hasMany(Expense);

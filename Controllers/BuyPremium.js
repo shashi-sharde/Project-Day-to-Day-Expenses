@@ -3,8 +3,8 @@ const Order = require('../Models/orders') // Envoking the Orders Model
 const  userController = require('./Usercontrol');
 const jwt = require('jsonwebtoken')
 
-function generateAccessToken(id, username){
-    return jwt.sign({ userId : id , username : username}, 'secret')
+function generateAccessToken(id, username,isPremiumUser){
+    return jwt.sign({ userId : id , username : username, isPremiumUser}, 'secret')
 }
 //
 
