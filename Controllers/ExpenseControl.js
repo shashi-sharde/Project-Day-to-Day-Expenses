@@ -36,7 +36,7 @@ exports.getExpense =  (req, res, next) => {
       
         if(isPremiumUser === true){
           const data =  await Expense.findAll({where: {userId: req.user.id}})
-            res.status(201).json({isPremiumUser:true, data:data});
+            res.status(201).json({isPremiumUser:true, data:data});//isPremiumUser:true, data:data === data
 
         }
       

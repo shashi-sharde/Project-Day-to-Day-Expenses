@@ -88,11 +88,19 @@ button{
     </div>
 
 </div>
-<button id="rzp-button1" style="color:rgb(25, 199, 68)">Buy Premium</button>
-<div id="message"></div>
+<button  id="rzp-button1" style="color:rgb(25, 199, 68)" >Buy Premium</button>
+<div class="leaderboardbutton">
+    <button  id="exp-leaderboard" style="color:rgb(25, 199, 68)" >Show LeaderBoard</button>
+</div>
+
+
+<div  id="message" align="center" ></div>
+<h2>Expenses</h2>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <ul id="NumberOfExpenses"></ul>
+    <ul id="leaderboard"></ul>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
     <script>
         function ExpenseDetails(event){
@@ -126,13 +134,19 @@ button{
                 
                 if(response.data.isPremiumUser ===true){
                     document.getElementById('rzp-button1').style.visibility='hidden'
-                    document.getElementById('message').innerHTML = 'PREMIUM USER';
+                    document.getElementById('message').innerHTML = `<strong>PREMIUM USER </strong>`;
+                    showLeaderboard();
+                    
                     response.data.data.forEach(data => {
                         DisplayOnScreen(data)
                     });
+                    
+                    
+                    
 
                 }
-                if(response.data.isPremiumUser ===false || response.isPremiumUser ==null){
+                if(response.data.isPremiumUser ===false || response.data.isPremiumUser == null){
+                    document.getElementById('exp-leaderboard').style.visibility = 'hidden'
                     response.data.data.forEach(data => {
                         DisplayOnScreen(data)
                     });
@@ -191,7 +205,7 @@ document.getElementById('rzp-button1').onclick =async function(e){ //creating on
             document.getElementById('rzp-button1').style.visibility='hidden'
 
             //Showing user that he/she is a premium USer
-            document.getElementById('message').innerHTML = 'PREMIUM USER';
+            document.getElementById('message').innerHTML = `<strong style="border:orange;  border-style:solid;">PREMIUM USER </strong>`;
             //Also setting the token after that 
             localStorage.setItem('token', res.data.token)
 
@@ -214,6 +228,31 @@ rzp1.on('payment.failed', function(response){
     
 });
 }
+function showLeaderboard(){
+    document.getElementById('exp-leaderboard').onclick= async () => {
+    const token =localStorage.getItem('token')
+    const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+    console.log(response);
+
+    var leaderboardParentElement = document.getElementById('leaderboard');
+    leaderboardParentElement.innerHTML = `<h1> Leader Board </h1>`
+    response.data.forEach((userDetails) => {
+        leaderboardDisplay(userDetails)
+        
+    })
+}
+function leaderboardDisplay(userDetails){
+    var leaderboardParentElement = document.getElementById('leaderboard');
+    childNode= `<l1 id= ${userDetails.id}> Name- ${userDetails.username} Total Expense- ${userDetails.TotalCost || 0} </li><br>`
+        leaderboardParentElement.innerHTML =  leaderboardParentElement.innerHTML+ childNode
+    }
+
+
+}
+
+    
+
+
     </script>
    
 </body>

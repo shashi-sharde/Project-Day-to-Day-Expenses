@@ -16,8 +16,8 @@ const buyPremium = async (req, res,next) => { //  taking an Async Function
 //Creating the Razor pay object and invoking the generated key id and Secret key given by razor pay so when it gets clicked
 // So that Razorpay knows for which company is making request 
         var rzp = new Razorpay ({                
-            key_id:'rzp_test_lGGa0AlKTWxQfF',
-            key_secret:'hcDxRjBA2FRg72BoE7XdX43f'
+            key_id:'rzp_test_iS08Qma4gfjRdo',
+            key_secret:'fH0Nk6T2c4MzZE651RDX58B7'
         })
         const amount = 2500; // Now giving the amount for the order
         rzp.orders.create({ amount, currency:'INR'}, (err, order) =>{ // At this poins we are creating the order and it gets created at 
