@@ -18,6 +18,7 @@ const cors = require('cors') // Used for the cross origin platform
 const Expense = require('./Models/ExpenseDetails')
 const User = require('./Models/Userdetails')
 const Order = require('./Models/orders')
+const Forgotpassword = require('./Models/forgotpasword')
 
 
 //Crating Express Application
@@ -42,6 +43,9 @@ Expense.belongsTo(User)
 //Defigning Relationship Between The User and Order
 User.hasMany(Order);
 Order.belongsTo(User)
+
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 
 // Execution of server Using sequelize and server port
