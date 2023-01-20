@@ -1,7 +1,7 @@
 const path = require('path') //invoking the path
 const express = require('express') // invoking Express Module
 const bodyParser = require('body-parser') 
-
+require('dotenv').config();
 
 //Envoking All the routers to the application
 const sequelize = require('./utill/database')

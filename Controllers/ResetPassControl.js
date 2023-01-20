@@ -6,8 +6,9 @@ const uuid = require('uuid')
 
 const User = require('../Models/Userdetails');
 const Forgotpassword  = require('../Models/forgotpasword');
+require('dotenv').config();
 
-const Api = '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'
+//const Api = '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'
 
 
 exports.fogetpassDetails =  (req, res, next) => {
@@ -24,11 +25,11 @@ exports.forgotpassword = async (req, res,next)=>{
         .catch(err =>{
             throw new Error(err)
         })
-        sendGrid.setApiKey(Api)
+        sendGrid.setApiKey(process.env.SENGRID_API_KEY)
 
         const msg = {
             to: email,
-            from: 'yj.rocks.2411@gmail.com',
+            from: 'shashisharde@gmail.com',
             subject:'Reset PassWord',
             text:'Resetting the password , email sent from Shashi Domain',
             html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
