@@ -32,7 +32,7 @@ exports.forgotpassword = async (req, res,next)=>{
             from: 'shashisharde@gmail.com',
             subject:'Reset PassWord',
             text:'Resetting the password , email sent from Shashi Domain',
-            html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
+            html: `<a href="54.178.119.246:3000/password/resetpassword/${id}">Reset password</a>`
         }
         console.log(msg)
         sendGrid.send(msg).then((response)=>{

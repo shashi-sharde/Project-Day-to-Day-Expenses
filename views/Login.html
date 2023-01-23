@@ -74,7 +74,7 @@ button{
             <input class="Pass" type="password" name="password" required><br><br>
             <button type="submit">Login</button><br><br>
             
-            <a href="http://localhost:3000/users/signup"> New User? SignUp</a>
+            <a href="./SignUp.html"> New User? SignUp</a>
         </form>
     </div>
     <center><a href="/password/forgotpassword"> Forgot Password</a></center>
@@ -92,14 +92,14 @@ button{
                 email,
                 password
             }
-            axios.post('http://localhost:3000/users/login',obj)
+            axios.post('54.178.119.246:3000/users/login',obj)
             .then((response)=>{
                 
                 if(response.status === 201){
                     alert('Login Successfull!')
                     localStorage.setItem('token', response.data.token) 
                     //const token = localStorage.getItem('token')
-                    window.location.href = 'http://localhost:3000/users/login/expense';
+                    window.location.href = './Expense.html';
                     //window.location.assign('http://127.0.0.1:5500/views/Expense.html');
                     
                 }

@@ -3,11 +3,7 @@ const User = require('../Models/Userdetails')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-exports.signUpData =  (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../', 'views' , 'SignUp.html'));
-  }
 
-  
 exports.signUp = async(req, res, next)=>{
 console.log('Ready To Signup')
     try{
@@ -37,9 +33,6 @@ console.log('Ready To Signup')
 
 
 
-exports.loginData= (req,res,next) =>{
-    res.sendFile(path.join(__dirname,'../', 'views', 'Login.html' ))
-}
 
 function generateAccessToken(id, username,isPremiumUser){
     return jwt.sign({ userId : id , username : username, isPremiumUser}, 'secret')

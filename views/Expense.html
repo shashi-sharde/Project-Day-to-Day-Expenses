@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Expense Tracker</title>
-    <style>
+<style>
         .container {
     display: flex;
 justify-content: center;
@@ -101,7 +101,7 @@ button{
 
     <ul id="NumberOfExpenses"></ul>
     <ul id="leaderboard"></ul>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" ></script>
     <script>
         function ExpenseDetails(event){
             event.preventDefault(event);
@@ -115,7 +115,7 @@ button{
                 Categories
             }
             const token = localStorage.getItem('token')
-            axios.post('http://localhost:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
+            axios.post('54.178.119.246:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
             .then((response)=>{
                 DisplayOnScreen(response.data.newExpenseDetails)
                 console.log(response)
@@ -127,7 +127,7 @@ button{
         window.addEventListener("DOMContentLoaded", (event) => {
             const token = localStorage.getItem('token')
             console.log("token",token)
-            axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+            axios.get('54.178.119.246:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
             .then((response)=>{
                 console.log("Expense details",response.data.data)
                 
@@ -166,7 +166,7 @@ button{
         }
         
         function deleteExpense(expenseId){
-            axios.delete(`http://localhost:3000/users/login/delete-expense/${expenseId}`)
+            axios.delete(`54.178.119.246:3000/users/login/delete-expense/${expenseId}`)
             removeExpenseFromScreen(expenseId);
         }
         function removeExpenseFromScreen(expenseId){
@@ -178,7 +178,7 @@ button{
 document.getElementById('rzp-button1').onclick =async function(e){ //creating onclicK event
     const token =localStorage.getItem('token')//Fetching the token for the particular User
     //making the request using network call
-    const response= await axios.get('http://localhost:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
+    const response= await axios.get('54.178.119.246:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
     console.log(response);
     //There will be various options so creating and option and will use it for the switching between the payment status 
     var options = 
@@ -193,7 +193,7 @@ document.getElementById('rzp-button1').onclick =async function(e){ //creating on
 
         // this handler only gets called when payment gets successfull
         "handler" : async function(response){
-            const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
+            const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
             }, {headers : {"Authorization" : token}})
@@ -220,7 +220,7 @@ e.preventDefault();
 rzp1.on('payment.failed', function(response){
     console.log(response)
     
-    const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
+    const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
             }, {headers : {"Authorization" : token}})
@@ -233,7 +233,7 @@ rzp1.on('payment.failed', function(response){
 function showLeaderboard(){
     document.getElementById('exp-leaderboard').onclick= async () => {
     const token =localStorage.getItem('token')
-    const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+    const response = await axios.get('54.178.119.246:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
     console.log(response);
 
     var leaderboardParentElement = document.getElementById('leaderboard');

@@ -1,9 +1,6 @@
 const path = require('path')
 const Expense = require('../Models/ExpenseDetails')
 
-exports.getExpense =  (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../','views', 'Expense.html'));
-  }
 
 
   exports.postAddExpenses = async(req, res, next) => {

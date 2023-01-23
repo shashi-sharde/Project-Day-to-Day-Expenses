@@ -36,6 +36,12 @@ app.use('/purchase',purchaseRoute);
 app.use('/premium',premiumfeatureRoute)
 app.use(forgotpasswordRoute)
 
+
+app.use((req,res)=>{
+    res.sendFile(path.join(__dirname, `/views/${req.url}`))
+})
+
+
 //Defining Relationship Between the User and Expense Table
 User.hasMany(Expense);
 Expense.belongsTo(User)
