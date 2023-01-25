@@ -1,5 +1,54 @@
 const path = require('path')
 const Expense = require('../Models/ExpenseDetails')
+const Downloadurl = require('../Models/downloadUrl')
+const S3Services =require('../sevices/S3Services')
+const UserServices = require('../sevices/UserServices')
+
+
+
+exports.downloadexpense = async(req, res, next)=>{
+  try{
+    const expenses = await UserServices.getExpenses(req);
+    console.log(expenses)
+    const stringifiedExpenses = JSON.stringify(expenses);
+    const userId = req.user.id
+
+
+    const filename = `expenses${userId}/${new Date}.csv`
+    const fileURl = await S3Services.uploadtoS3(stringifiedExpenses,filename);
+    const urldata = await req.user.createDownloadurl({
+      filename:filename,
+      fileurl:fileURl
+    })
+
+    
+
+    res.status(201).json( {fileURl, urldata, success:true})
+  } catch (err){
+    console.log(err)
+    res.status(500).json({fileURl : " ", success:false,err:err})
+  }
+  
+}
+
+
+ exports.getDownloadUrls = async (req,res,next)=>{
+  try{
+    const data = await Downloadurl.findAll({where: {userId: req.user.id}})
+    console.log("dsahrjkrwhsakjhrekjwa" ,data)
+    if(!data){
+      return res.status(404).json({ message:'no urls found with this user' , success: false});
+    }
+  return  res.status(200).json({ data , success: true })
+    
+
+  
+  }catch (err) {
+    res.status(500).json({err:err})
+}
+  
+
+}
 
 
 

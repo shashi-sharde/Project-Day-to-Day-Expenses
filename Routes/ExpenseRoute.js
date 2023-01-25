@@ -15,6 +15,11 @@ router.get('/users/login/get-expense',Userauthentication.authenticate,  expenseC
 
 router.post('/users/login/add-expense', Userauthentication.authenticate,expenseController.postAddExpenses);
 
+router.get('/user/download', Userauthentication.authenticate, expenseController.downloadexpense);
+
+router.get('/user/getAllUrl', Userauthentication.authenticate, expenseController.getDownloadUrls)
+
+
 router.delete('/users/login/delete-expense/:expenseId', expenseController.deleteExpense);
 
 

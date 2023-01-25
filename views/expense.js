@@ -10,7 +10,7 @@
 // //         Categories
 // //     }
 // //     const token = localStorage.getItem('token')
-// //     axios.post('54.178.119.246:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
+// //     axios.post('http://localhost:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
 // //     .then((response)=>{
 // //         DisplayOnScreen(response.data.newExpenseDetails)
 // //         console.log(response)
@@ -22,7 +22,7 @@
 // // window.addEventListener("DOMContentLoaded", (event) => {
 // //     const token = localStorage.getItem('token')
 // //     console.log("token",token)
-// //     axios.get('54.178.119.246:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+// //     axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
 // //     .then((response)=>{
 // //         console.log("Expense details",response.data.data)
         
@@ -59,7 +59,7 @@
 // // }
 
 // // function deleteExpense(expenseId){
-// //     axios.delete(`54.178.119.246:3000/users/login/delete-expense/${expenseId}`)
+// //     axios.delete(`http://localhost:3000/users/login/delete-expense/${expenseId}`)
 // //     removeExpenseFromScreen(expenseId);
 // // }
 // // function removeExpenseFromScreen(expenseId){
@@ -71,7 +71,7 @@
 // // document.getElementById('rzp-button1').onclick =async function(e){ //creating onclicK event
 // // const token =localStorage.getItem('token')//Fetching the token for the particular User
 // // //making the request using network call
-// // const response= await axios.get('54.178.119.246:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
+// // const response= await axios.get('http://localhost:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
 // // console.log(response);
 // // //There will be various options so creating and option and will use it for the switching between the payment status 
 // // var options = 
@@ -86,7 +86,7 @@
 
 // // // this handler only gets called when payment gets successfull
 // // "handler" : async function(response){
-// //     const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
+// //     const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
 // //         order_id: options.order_id,
 // //         payment_id: response.razorpay_payment_id,
 // //     }, {headers : {"Authorization" : token}})
@@ -113,7 +113,7 @@
 // // rzp1.on('payment.failed', function(response){
 // // console.log(response)
 
-// // const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
+// // const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
 // //         order_id: options.order_id,
 // //         payment_id: response.razorpay_payment_id,
 // //     }, {headers : {"Authorization" : token}})
@@ -124,7 +124,7 @@
 
 // // document.getElementById('exp-leaderboard').onclick= async function showleaderboard(e){
 // // const token =localStorage.getItem('token')
-// // const response = await axios.get('54.178.119.246:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+// // const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
 // // console.log(response);
 
 // // var leaderboardParentElement = document.getElementById('leaderboard');
@@ -292,7 +292,7 @@
 //                 Categories
 //             }
 //             const token = localStorage.getItem('token')
-//             axios.post('54.178.119.246:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
+//             axios.post('http://localhost:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
 //             .then((response)=>{
 //                 DisplayOnScreen(response.data.newExpenseDetails)
 //                 console.log(response)
@@ -304,7 +304,7 @@
 //         window.addEventListener("DOMContentLoaded", (event) => {
 //             const token = localStorage.getItem('token')
 //             console.log("token",token)
-//             axios.get('54.178.119.246:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+//             axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
 //             .then((response)=>{
 //                 console.log("Expense details",response.data.data)
                 
@@ -343,7 +343,7 @@
 //         }
         
 //         function deleteExpense(expenseId){
-//             axios.delete(`54.178.119.246:3000/users/login/delete-expense/${expenseId}`)
+//             axios.delete(`http://localhost:3000/users/login/delete-expense/${expenseId}`)
 //             removeExpenseFromScreen(expenseId);
 //         }
 //         function removeExpenseFromScreen(expenseId){
@@ -355,7 +355,7 @@
 // document.getElementById('rzp-button1').onclick =async function(e){ //creating onclicK event
 //     const token =localStorage.getItem('token')//Fetching the token for the particular User
 //     //making the request using network call
-//     const response= await axios.get('54.178.119.246:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
+//     const response= await axios.get('http://localhost:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
 //     console.log(response);
 //     //There will be various options so creating and option and will use it for the switching between the payment status 
 //     var options = 
@@ -370,7 +370,7 @@
 
 //         // this handler only gets called when payment gets successfull
 //         "handler" : async function(response){
-//             const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
+//             const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
 //                 order_id: options.order_id,
 //                 payment_id: response.razorpay_payment_id,
 //             }, {headers : {"Authorization" : token}})
@@ -397,7 +397,7 @@
 // rzp1.on('payment.failed', function(response){
 //     console.log(response)
     
-//     const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
+//     const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
 //                 order_id: options.order_id,
 //                 payment_id: response.razorpay_payment_id,
 //             }, {headers : {"Authorization" : token}})
@@ -408,7 +408,7 @@
 // function showLeaderboard(){
 //     document.getElementById('exp-leaderboard').onclick= async () => {
 //     const token =localStorage.getItem('token')
-//     const response = await axios.get('54.178.119.246:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+//     const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
 //     console.log(response);
 
 //     var leaderboardParentElement = document.getElementById('leaderboard');

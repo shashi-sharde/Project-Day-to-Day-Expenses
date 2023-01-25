@@ -48,6 +48,14 @@ button{
             background-position: 0% 50%;
         }
     }
+    .leaderboardbutton{
+        padding-bottom: 15%;
+    }
+    .DownloadList {
+        float:right;
+        padding-bottom: 5%;
+      }
+    
     
     </style>
 </head>
@@ -89,9 +97,7 @@ button{
 
 </div>
 <button  id="rzp-button1" style="color:rgb(25, 199, 68)" >Buy Premium</button>
-<div class="leaderboardbutton">
-    <button  id="exp-leaderboard" style="color:rgb(25, 199, 68)" >Show LeaderBoard</button>
-</div>
+
 
 
 <div  id="message" align="center" ></div>
@@ -100,7 +106,21 @@ button{
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <ul id="NumberOfExpenses"></ul>
+    
     <ul id="leaderboard"></ul>
+    <div class="leaderboardbutton">
+        <button  id="exp-leaderboard" style="color:rgb(25, 199, 68)" >Show LeaderBoard</button>
+        <button onclick="download()" id="downloadExpense" style="color:rgb(25, 199, 68)"> Download Expense Report</button>
+    </div>
+    
+    <ul id ='downloadedURL'></ul>
+    <div class ="DownloadList">
+        <button onclick = "download_List()" id="AllDownloads" style="color:rgb(25, 199, 68)"  > Download List</button>
+    </div>
+    
+    
+    
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" ></script>
     <script>
         function ExpenseDetails(event){
@@ -115,7 +135,7 @@ button{
                 Categories
             }
             const token = localStorage.getItem('token')
-            axios.post('54.178.119.246:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
+            axios.post('http://localhost:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
             .then((response)=>{
                 DisplayOnScreen(response.data.newExpenseDetails)
                 console.log(response)
@@ -127,7 +147,7 @@ button{
         window.addEventListener("DOMContentLoaded", (event) => {
             const token = localStorage.getItem('token')
             console.log("token",token)
-            axios.get('54.178.119.246:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+            axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
             .then((response)=>{
                 console.log("Expense details",response.data.data)
                 
@@ -139,7 +159,9 @@ button{
                     
                     response.data.data.forEach(data => {
                         DisplayOnScreen(data)
+                        
                     });
+                    
                     
                     
                     
@@ -160,13 +182,15 @@ button{
         function DisplayOnScreen(expense){
             const parentNode = document.getElementById("NumberOfExpenses")
             const childNode = `<li id=${expense.id}>${expense.Categories}: Money Spent - Rs ${expense.MoneySpent}- on ${expense.Description}
-            <button onclick=deleteExpense('${expense.id}')> Delete</li>`
+            <button onclick=deleteExpense('${expense.id}') align ="inline">X</li>`
             parentNode.innerHTML = parentNode.innerHTML + childNode
+            
+
         
         }
         
         function deleteExpense(expenseId){
-            axios.delete(`54.178.119.246:3000/users/login/delete-expense/${expenseId}`)
+            axios.delete(`http://localhost:3000/users/login/delete-expense/${expenseId}`)
             removeExpenseFromScreen(expenseId);
         }
         function removeExpenseFromScreen(expenseId){
@@ -178,7 +202,7 @@ button{
 document.getElementById('rzp-button1').onclick =async function(e){ //creating onclicK event
     const token =localStorage.getItem('token')//Fetching the token for the particular User
     //making the request using network call
-    const response= await axios.get('54.178.119.246:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
+    const response= await axios.get('http://localhost:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
     console.log(response);
     //There will be various options so creating and option and will use it for the switching between the payment status 
     var options = 
@@ -193,7 +217,7 @@ document.getElementById('rzp-button1').onclick =async function(e){ //creating on
 
         // this handler only gets called when payment gets successfull
         "handler" : async function(response){
-            const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
+            const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
             }, {headers : {"Authorization" : token}})
@@ -220,7 +244,7 @@ e.preventDefault();
 rzp1.on('payment.failed', function(response){
     console.log(response)
     
-    const res = axios.post('54.178.119.246:3000/purchase/updateTransactionStatus',{
+    const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
                 order_id: options.order_id,
                 payment_id: response.razorpay_payment_id,
             }, {headers : {"Authorization" : token}})
@@ -233,7 +257,7 @@ rzp1.on('payment.failed', function(response){
 function showLeaderboard(){
     document.getElementById('exp-leaderboard').onclick= async () => {
     const token =localStorage.getItem('token')
-    const response = await axios.get('54.178.119.246:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+    const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
     console.log(response);
 
     var leaderboardParentElement = document.getElementById('leaderboard');
@@ -249,6 +273,51 @@ function leaderboardDisplay(userDetails){
         leaderboardParentElement.innerHTML =  leaderboardParentElement.innerHTML+ childNode
     }
 
+
+}
+function download(){
+    const token =localStorage.getItem('token')
+    axios.get('http://localhost:3000/user/download', {headers :{"Authorization": token}})
+    .then((response)=>{
+        if(response.status === 201){
+            var a = document.createElement('a')
+            a.href= response.data.fileURl;
+            a.download = "MyExpense.csv"
+            a.click();
+        }else{
+            throw new Error(response.data)
+        }
+    }).catch(err =>{
+        console.log(err)
+    })
+
+    
+}
+function download_List(){
+    const token =localStorage.getItem('token')
+    var DownloadlistParentElement = document.getElementById('downloadedURL');
+    axios.get('http://localhost:3000/user/getAllUrl', {headers :{"Authorization": token}})
+    .then((response)=>{
+        if(response.status === 200){
+            console.log(response);
+            
+            DownloadlistParentElement.innerHTML = `<h1> Downloaded List </h1>`
+            for(i=0;i<response.data.data.length;i++){
+                DownloadListDisplay(response.data.data[i])
+            
+            
+            
+        }
+    }
+        function DownloadListDisplay(downloadurl){
+        var DownloadlistParentElement = document.getElementById('downloadedURL');
+        childNode= `<l1 id= ${downloadurl.id}>  Id :- ${downloadurl.id} <br> FileName :- ${downloadurl.filename}  <br>
+            <a href=${downloadurl.fileurl}>Click To Download File</a> </li><br>`
+            DownloadlistParentElement.innerHTML =  DownloadlistParentElement.innerHTML+ childNode
+        }
+    }).catch(err =>{
+        console.log(err)
+    })
 
 }
 

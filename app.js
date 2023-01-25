@@ -1,6 +1,7 @@
 const path = require('path') //invoking the path
 const express = require('express') // invoking Express Module
 const bodyParser = require('body-parser') 
+const DownloadUrl =require('./Models/downloadUrl')
 require('dotenv').config();
 
 //Envoking All the routers to the application
@@ -53,6 +54,8 @@ Order.belongsTo(User)
 User.hasMany(Forgotpassword);
 Forgotpassword.belongsTo(User);
 
+User.hasMany(DownloadUrl);
+DownloadUrl.belongsTo(User);
 
 // Execution of server Using sequelize and server port
 sequelize.sync({force:false}).then(result =>{
