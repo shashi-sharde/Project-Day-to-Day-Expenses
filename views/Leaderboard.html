@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'rel='stylesheet'>
+    <style>
+        /* .container {
+    display: flex;
+justify-content: center;
+}
+
+.container form {
+    position: center;
+    width: 400px;
+    height: 300px;
+    border-radius: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #ecf0f3a4;
+    box-shadow: 14px 14px 20px #cbced1a6, -14px -14px 20px rgba(255, 255, 255, 0.144);
+    text-align: center;
+    
+  } */
+
+
+    body {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d582);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        height: 100vh;
+    }
+    
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    
+    
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="card-body">
+        <div class="d-flex flex-column justify-content-center w-100 h-100">
+
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                
+                <div class="btn-group my-5">
+                    <a href="https://codepen-api-export-production.s3.us-west-2.amazonaws.com/zip/PEN/pyBNzX/1578778289271/pure-css-gradient-background-animation.zip" class="btn btn-outline-light" aria-current="page"><i class="fas fa-file-download me-2"></i></a>
+                    <a href="https://codepen.io/P1N2O/full/pyBNzX" class="btn btn-outline-light"><i class="fas fa-expand ms-2"></i></a>
+                </div>
+                <a href="https://manuel.pinto.dev" class="text-decoration-none">
+                    <h5 class="fw-light text-white m-0"></h5>
+                </a>
+            </div>
+        </div>
+        </div>
+    
+    <div id="message"></div>
+    <ul id="leaderboard"></ul>
+    
+    
+    <button  id="exp-leaderboard" style="width: 250px; height: 35px;  background: rgba(16, 16, 16, 0.463);border: none;border-radius: 40px;position: absolute;right:2px" >Show LeaderBoard</button>    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+            const token = localStorage.getItem('token')
+            console.log("token",token)
+            axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+            .then((response)=>{
+                console.log("Expense details",response.data.data)
+                
+                
+                if(response.data.isPremiumUser ===true){
+                    document.getElementById('rzp-button1').style.visibility='hidden'
+                    document.getElementById('message').innerHTML = `<strong>PREMIUM USER </strong>`;
+                    
+                    
+
+                }
+                if(response.data.isPremiumUser ===false || response.data.isPremiumUser == null){
+                    document.getElementById('exp-leaderboard').style.visibility = 'hidden'
+                    var bt2=document.getElementById('showLeaderBoard')
+                    bt2.onclick = function (){
+                    alert('please upgrade to premium to access this feature!')
+          
+        
+    }
+                }    
+                
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+            showLeaderboard();
+        })
+        
+
+
+    function showLeaderboard(){
+    document.getElementById('exp-leaderboard').onclick= async () => {
+    const token =localStorage.getItem('token')
+    const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+    console.log(response);
+
+    var leaderboardParentElement = document.getElementById('leaderboard');
+    leaderboardParentElement.innerHTML = `<h1> Leader Board </h1>`
+    response.data.forEach((userDetails) => {
+        leaderboardDisplay(userDetails)
+        
+    })
+}
+function leaderboardDisplay(userDetails){
+    var leaderboardParentElement = document.getElementById('leaderboard');
+    childNode= `<l1 id= ${userDetails.id}> Name- ${userDetails.username} Total Expense- ${userDetails.TotalCost || 0} </li><br>`
+        leaderboardParentElement.innerHTML =  leaderboardParentElement.innerHTML+ childNode
+    }
+
+
+}
+    </script>
+    
+</body>
+</html>

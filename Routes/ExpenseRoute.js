@@ -11,7 +11,7 @@ const router = express.Router();
 
 
 
-router.get('/users/login/get-expense',Userauthentication.authenticate,  expenseController.getExpenses);
+router.post(`/users/login/get-expense/:page`,Userauthentication.authenticate,  expenseController.getExpenses);
 
 router.post('/users/login/add-expense', Userauthentication.authenticate,expenseController.postAddExpenses);
 

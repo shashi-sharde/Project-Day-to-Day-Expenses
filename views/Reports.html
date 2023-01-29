@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'rel='stylesheet'>
+    <style>
+        /* .container {
+    display: flex;
+justify-content: center;
+}
+
+.container form {
+    position: center;
+    width: 400px;
+    height: 300px;
+    border-radius: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #ecf0f3a4;
+    box-shadow: 14px 14px 20px #cbced1a6, -14px -14px 20px rgba(255, 255, 255, 0.144);
+    text-align: center;
+    
+  } */
+
+
+    body {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d582);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        height: 100vh;
+    }
+    
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    
+    
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="card-body">
+        <div class="d-flex flex-column justify-content-center w-100 h-100">
+
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                
+                <div class="btn-group my-5">
+                    <a href="https://codepen-api-export-production.s3.us-west-2.amazonaws.com/zip/PEN/pyBNzX/1578778289271/pure-css-gradient-background-animation.zip" class="btn btn-outline-light" aria-current="page"><i class="fas fa-file-download me-2"></i></a>
+                    <a href="https://codepen.io/P1N2O/full/pyBNzX" class="btn btn-outline-light"><i class="fas fa-expand ms-2"></i></a>
+                </div>
+                <a href="https://manuel.pinto.dev" class="text-decoration-none">
+                    <h5 class="fw-light text-white m-0"></h5>
+                </a>
+            </div>
+        </div>
+        </div>
+    
+    <div id="message"></div>
+    
+    
+    <ul id ='downloadedURL'></ul>
+    <div class ="DownloadList">
+        <button onclick="download()" id="downloadExpense" style="color:rgb(25, 199, 68)"> Download Expense Report</button>
+        <button onclick = "download_List()" id="AllDownloads" style="color:rgb(25, 199, 68)"  > Download List</button>
+    </div>
+    
+    
+        
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+            const token = localStorage.getItem('token')
+            console.log("token",token)
+            axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+            .then((response)=>{
+                console.log("Expense details",response.data.data)
+                
+                
+                if(response.data.isPremiumUser ===true){
+                    
+                    document.getElementById('message').innerHTML = `<strong>PREMIUM USER </strong>`;
+                    
+                    
+
+                }
+                if(response.data.isPremiumUser ===false || response.data.isPremiumUser == null){
+                    
+                    var bt2=document.getElementById('AllDownloads')
+                    bt2.onclick = function (){
+                    alert('please upgrade to premium to access this feature!')
+          
+        
+    }
+                }    
+                
+            })
+            .catch((err)=>{
+                console.log(err)
+            }) 
+            download_List()
+            
+        })
+function download(){
+    const token =localStorage.getItem('token')
+    axios.get('http://localhost:3000/user/download', {headers :{"Authorization": token}})
+    .then((response)=>{
+        if(response.status === 201){
+            var a = document.createElement('a')
+            a.href= response.data.fileURl;
+            a.download = "MyExpense.csv"
+            a.click();
+        }else{
+            throw new Error(response.data)
+        }
+    }).catch(err =>{
+        console.log(err)
+    })
+
+    
+}
+function download_List(){
+    const token =localStorage.getItem('token')
+    var DownloadlistParentElement = document.getElementById('downloadedURL');
+    axios.get('http://localhost:3000/user/getAllUrl', {headers :{"Authorization": token}})
+    .then((response)=>{
+        if(response.status === 200){
+            console.log(response);
+            
+            DownloadlistParentElement.innerHTML = `<h1> Downloaded History </h1>`
+            for(i=0;i<response.data.data.length;i++){
+                DownloadListDisplay(response.data.data[i])
+            
+            
+            
+        }
+    }
+        function DownloadListDisplay(downloadurl){
+        var DownloadlistParentElement = document.getElementById('downloadedURL');
+        childNode= `<l1 id= ${downloadurl.id}>  Id :- ${downloadurl.id} <br> FileName :- ${downloadurl.filename}  <br>
+            <a href=${downloadurl.fileurl}>Click To Download File</a> </li><br>`
+            DownloadlistParentElement.innerHTML =  DownloadlistParentElement.innerHTML+ childNode
+        }
+    }).catch(err =>{
+        console.log(err)
+    })
+
+}
+
+
+     </script>
+    
+</body>
+</html>
