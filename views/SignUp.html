@@ -91,10 +91,10 @@ button{
                 password
             }
 
-            axios.post('http://localhost:3000/users/signup' , obj)
+            axios.post('13.230.155.39:3000/users/signup' , obj)
             .then((response)=>{
                 document.body.innerHTML += `<div style ='color:green;'>${alert('Successfully created new user!')} </div>`;
-                window.location.href='http://localhost:3000/Login.html';
+                window.location.href='13.230.155.39:3000/Login.html';
             })
             .catch((err)=>{
                 document.body.innerHTML += `<div style ='color:red;'>${'Email Id already registerd- please try to Login'} </div>`;

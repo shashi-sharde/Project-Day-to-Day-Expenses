@@ -85,9 +85,10 @@ exports.downloadexpense = async(req, res, next)=>{
   exports.getExpenses = async (req,res,next)=>{
       console.log("Getting Expenses");
       let page = +req.params.page ||  1;
-      console.log('ctrolpage',page)
+      
 
       let Items_Per_Page = +(req.body.Items_Per_Page)|| 5;
+     
       let totalItems;
   
       try{
@@ -95,7 +96,7 @@ exports.downloadexpense = async(req, res, next)=>{
         totalItems = count;
         
 
-        const data =  await Expense.findAll({ offset: (page - 1) * Items_Per_Page, limit: Items_Per_Page })
+        const data =  await req.user.getExpenses({ offset: (page - 1) * Items_Per_Page, limit: Items_Per_Page })
 
             return res.status(201).json({data, info: {
               currentPage: page,

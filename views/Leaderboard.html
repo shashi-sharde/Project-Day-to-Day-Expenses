@@ -78,7 +78,7 @@ justify-content: center;
       window.addEventListener("DOMContentLoaded", (event) => {
             const token = localStorage.getItem('token')
             console.log("token",token)
-            axios.get('http://localhost:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
+            axios.get('13.230.155.39:3000/users/login/get-expense',{ headers: {"Authorization" : token} })
             .then((response)=>{
                 console.log("Expense details",response.data.data)
                 
@@ -112,7 +112,7 @@ justify-content: center;
     function showLeaderboard(){
     document.getElementById('exp-leaderboard').onclick= async () => {
     const token =localStorage.getItem('token')
-    const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+    const response = await axios.get('13.230.155.39:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
     console.log(response);
 
     var leaderboardParentElement = document.getElementById('leaderboard');

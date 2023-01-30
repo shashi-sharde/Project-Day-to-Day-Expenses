@@ -1,6 +1,8 @@
 // <!-- **********************************Adding Expense********************************* -->
 const pagination= document.getElementById('pagination')
+//let Items_Per_Page = localStorage.getItem('itemsperpage')
 let Items_Per_Page = localStorage.getItem('itemsperpage')
+
 function ExpenseDetails(event){
     event.preventDefault(event);
     const MoneySpent = event.target.number.value;
@@ -13,7 +15,7 @@ function ExpenseDetails(event){
         Categories
     }
     const token = localStorage.getItem('token')
-    axios.post('http://localhost:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
+    axios.post('13.230.155.39:3000/users/login/add-expense', obj,{ headers: {"Authorization" : token} })
     .then((response)=>{
         DisplayOnScreen(response.data.newExpenseDetails)
         console.log(response)
@@ -24,7 +26,7 @@ function ExpenseDetails(event){
 }
 //****************************************************Getting Expenses**************************************************//
 window.addEventListener("DOMContentLoaded", async(event) => {
-    Items_Per_Page= +document.getElementById('Items_Per_Page')
+    Items_Per_Page= +document.getElementById('perpage')
     const token = localStorage.getItem('token')
     let page = 1
     
@@ -51,7 +53,7 @@ window.addEventListener("DOMContentLoaded", async(event) => {
         }
 
     }
-    await axios.post(`http://localhost:3000/users/login/get-expense/${page}`,{Items_Per_Page: Items_Per_Page},{ headers: {"Authorization" : token} })
+    await axios.post(`13.230.155.39:3000/users/login/get-expense/${page}`,{Items_Per_Page: Items_Per_Page},{ headers: {"Authorization" : token} })
     .then((response)=>{
         console.log("Expense details",response.data)
         response.data.data.forEach(data => {
@@ -72,7 +74,7 @@ function DisplayOnScreen(expense){
 }
 
 function deleteExpense(expenseId){
-    axios.delete(`http://localhost:3000/users/login/delete-expense/${expenseId}`)
+    axios.delete(`13.230.155.39:3000/users/login/delete-expense/${expenseId}`)
     removeExpenseFromScreen(expenseId);
 }
 function removeExpenseFromScreen(expenseId){
@@ -95,10 +97,23 @@ return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
 
 return JSON.parse(jsonPayload);
 }
+
+
+
+// ***************************************************logout*****************************************//
+const logoutBtn = document.querySelector('#logout');
+logoutBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem('token')
+    localStorage.removeItem('token');
+    alert('Logged out!');
+    window.location.href = './Login.html';
+});
 //<!--****************************************Pagination Function************************************* -->
 
 function showPagination({currentPage,hasNextPage,hasPreviousPage,nextPage,previousPage,lastPage}){
     //Items_Per_Page = localStorage.getItem('itemsperpage'
+    let Items_Per_Page = localStorage.getItem('itemsperpage')
     pagination.innerHTML ='';
 
     if(hasPreviousPage){
@@ -135,16 +150,16 @@ function showPagination({currentPage,hasNextPage,hasPreviousPage,nextPage,previo
 }
 async function getPageExpenses(page , limitper){
     console.log(page)
-    let Items_Per_Page = limitper;
+    let abc = limitper;
     const token = localStorage.getItem('token')
-    await axios.post(`http://localhost:3000/users/login/get-expense/${page}`,{Items_Per_Page: Items_Per_Page},{ headers: {"Authorization" : token} })
+    await axios.post(`13.230.155.39:3000/users/login/get-expense/${page}`,{Items_Per_Page: abc},{ headers: {"Authorization" : token} })
     .then((response)=>{
         console.log("Expense details",response.data)
         document.getElementById('NumberOfExpenses').innerHTML=null
         response.data.data.forEach(data => {
                 DisplayOnScreen(data)
             });
-            showPagination(response.data.info);   
+            showPagination(response.data.info);  
         
     })
     .catch((err)=>{
@@ -152,8 +167,9 @@ async function getPageExpenses(page , limitper){
     })
 
 }
+
 function perPage(event){
-    let Items_Per_Page = +document.getElementById('Items_Per_Page')
+    let Items_Per_Page = +document.getElementById('perpage')
     let page = 1;
     event.preventDefault();
     
@@ -170,7 +186,7 @@ function perPage(event){
 document.getElementById('rzp-button1').onclick =async function(e){ 
 const token =localStorage.getItem('token')
 
-const response= await axios.get('http://localhost:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
+const response= await axios.get('13.230.155.39:3000/purchase/premiummembership', {headers: {"Authorization" : token }});
 console.log(response);
 
 var options = 
@@ -181,7 +197,7 @@ var options =
 
 // this handler only gets called when payment gets successfull
 "handler" : async function(response){
-    const res = await axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
+    const res = await axios.post('13.230.155.39:3000/purchase/updateTransactionStatus',{
         order_id: options.order_id,
         payment_id: response.razorpay_payment_id,
     }, {headers : {"Authorization" : token}})
@@ -211,7 +227,7 @@ e.preventDefault();
 rzp1.on('payment.failed', function(response){
 console.log(response)
 
-const res = axios.post('http://localhost:3000/purchase/updateTransactionStatus',{
+const res = axios.post('13.230.155.39:3000/purchase/updateTransactionStatus',{
         order_id: options.order_id,
         payment_id: response.razorpay_payment_id,
     }, {headers : {"Authorization" : token}})
@@ -224,7 +240,7 @@ alert("Something went Wrong!")
 function showLeaderboard(){
 document.getElementById('exp-leaderboard').onclick= async () => {
 const token =localStorage.getItem('token')
-const response = await axios.get('http://localhost:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
+const response = await axios.get('13.230.155.39:3000/premium/Show_leaderBoard' , {headers: {"Authorization" : token }})
 console.log(response);
 
 var leaderboardParentElement = document.getElementById('leaderboard');
@@ -245,7 +261,7 @@ leaderboardParentElement.innerHTML =  leaderboardParentElement.innerHTML+ childN
 //***************************************************Downloading the Expenses as file********************************************
 function download(){
 const token =localStorage.getItem('token')
-axios.get('http://localhost:3000/user/download', {headers :{"Authorization": token}})
+axios.get('13.230.155.39:3000/user/download', {headers :{"Authorization": token}})
 .then((response)=>{
 if(response.status === 201){
     var a = document.createElement('a')
@@ -265,7 +281,7 @@ console.log(err)
 function download_List(){
 const token =localStorage.getItem('token')
 var DownloadlistParentElement = document.getElementById('downloadedURL');
-axios.get('http://localhost:3000/user/getAllUrl', {headers :{"Authorization": token}})
+axios.get('13.230.155.39:3000/user/getAllUrl', {headers :{"Authorization": token}})
 .then((response)=>{
 if(response.status === 200){
     console.log(response);
