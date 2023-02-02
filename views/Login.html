@@ -83,7 +83,9 @@ button{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
     <script>
         function Login(event){
-            event.preventDefault(event);
+
+            try{
+                event.preventDefault(event);
             
             const email = event.target.email.value;
             const password = event.target.password.value;
@@ -92,6 +94,7 @@ button{
                 email,
                 password
             }
+            
             axios.post('http://18.183.11.31:3000/users/login',obj)
             .then((response)=>{
                 
@@ -118,6 +121,11 @@ button{
         console.log(JSON.stringify(err))
         document.body.innerHTML += `<div style="color:red;">Incorrect Password! <div>`;
     })
+
+            }catch(err){
+                document.body.innerHTML += `<div style="color:red;">Incorrect Password! <div>`;
+            }
+            
             
             
 

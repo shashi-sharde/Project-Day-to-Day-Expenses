@@ -9,16 +9,25 @@ console.log('Ready To Signup')
     try{
     const {username, email, password} =req.body
 
-    if (username == undefined || username.length === 0 || email.length === 0 || email == null || password.length === 0 || password ==null){
-        return res.status(400).json({err: 'Bad Parameters . Something is missing.'})
+    // if (username == undefined || username.length === 0 || email.length === 0 || email == null || password.length === 0 || password ==null){
+    //     return res.status(400).json({err: 'Bad Parameters . Something is missing.'})
+    // }
+    const userdata = await User.findAll({where: {email}})
+    if(userdata.length>0){
+        return res.status(207).json({message: "Email Already Exists!"})
+
     }
-    const saltround = 10
-    bcrypt.hash(password, saltround, async(err, hash)=>{
-        await User.create({username,email, password:hash})
+    else{
+        const saltround = 10
+        bcrypt.hash(password, saltround, async(err, hash)=>{
+            await User.create({username,email, password:hash})
+                
+            res.status(201).json({message: "User Created Successfully!"})
             
-        res.status(201).json({message: "User Created Successfully!"})
-        
-    })
+        })
+    }
+    
+    
 
         }catch(error){
         console.log(error)

@@ -80,7 +80,8 @@ button{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
     <script>
         function userDetails(event){
-            event.preventDefault(event);
+            
+                event.preventDefault(event);
             const username = event.target.name.value;
             const email = event.target.email.value;
             const password = event.target.password.value
@@ -93,12 +94,22 @@ button{
 
             axios.post('http://18.183.11.31:3000/users/signup' , obj)
             .then((response)=>{
-                document.body.innerHTML += `<div style ='color:green;'>${alert('Successfully created new user!')} </div>`;
+                if(response.status ===201){
+                    document.body.innerHTML += `<div style ='color:green;'>${alert('Successfully created new user!')} </div>`;
                 window.location.href='http://18.183.11.31:3000/Login.html';
+
+                }
+                else if(response.status===207){
+                    document.body.innerHTML += `<div style ='color:red;'>${'Email Id already registerd- please try to Login'} </div>`;
+
+                }
+                
             })
             .catch((err)=>{
-                document.body.innerHTML += `<div style ='color:red;'>${'Email Id already registerd- please try to Login'} </div>`;
+                console.log(err)
             })
+            
+            
 
 
         }

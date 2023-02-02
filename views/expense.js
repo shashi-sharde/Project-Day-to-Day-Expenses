@@ -1,4 +1,5 @@
 // <!-- **********************************Adding Expense********************************* -->
+localStorage.removeItem('itemsperpage')
 const pagination= document.getElementById('pagination')
 //let Items_Per_Page = localStorage.getItem('itemsperpage')
 let Items_Per_Page = localStorage.getItem('itemsperpage')
@@ -215,6 +216,7 @@ var options =
     //Also setting the token after that 
     //localStorage.setItem('token', res.data.token)
     showLeaderboard();
+    location.reload()
 
 },
 };
